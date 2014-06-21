@@ -1,0 +1,23 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: imdb_data
+  pool: 5
+  username: user
+  password: pass
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: imdb_data_test
+  pool: 5
+  username: user
+  password: pass
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: imdb_data_prod
+  pool: 5
+  username: user
+  password: pass
