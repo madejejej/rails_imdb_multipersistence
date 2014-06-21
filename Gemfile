@@ -46,3 +46,5 @@ end
 
 gem 'rare_map'
 gem 'annotate'
+gem "twitter-bootstrap-rails"
+gem 'schema_to_scaffold'

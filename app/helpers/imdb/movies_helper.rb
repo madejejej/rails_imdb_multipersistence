@@ -1,0 +1,2 @@
+module Imdb::MoviesHelper
+end
