@@ -40,7 +40,7 @@ Actor.includes(:movies).find_each do |actor|
         $neo.add_label(movie_node, 'Movie')
         $neo.add_node_to_index('movies', 'movie_id', movie.idmovies, $neo.get_id(movie_node), true)
       ensure
-        $neo.create_unique_relationship('acted_ins', 'actor_id', movie.idmovies.to_s, 'ACTED_IN', node, movie_node)
+        $neo.create_relationship('ACTED_IN', node, movie_node)
       end
     end
 
