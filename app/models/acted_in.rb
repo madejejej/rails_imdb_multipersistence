@@ -17,8 +17,8 @@ class ActedIn < ActiveRecord::Base
   self.inheritance_column = 'ruby_type'
   self.primary_key = 'idacted_in'
 
-  belongs_to :actor
-  belongs_to :movie
+  belongs_to :actor, foreign_key: :idactors
+  belongs_to :movie, foreign_key: :idmovies
   belongs_to :series
 
 

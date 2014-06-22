@@ -1,31 +1,50 @@
-  @actors = Hash.new
-  Actor.find_each do |actor|
-    @node = $neo.create_node(fname: actor.fname, lname: actor.fname, mname: actor.mname)
-    @actors[actor.id] = @node
-    $neo.add_label(actor.id, 'Actor')
+  # Actor.limit(100).each do |actor|
+  #  node = $neo.create_node(fname: actor.fname, lname: actor.fname, mname: actor.mname, actor_id: actor.id)
+  #  $neo.add_label(node, 'Actor')
+  #  print "+"
+  #end
+
+  #puts "Actor batch saved!"
+
+  #Movie.limit(100).each do |movie|
+  #  node = $neo.create_node(title: movie.title, movie_id: movie.idmovies)
+  #  $neo.add_label(node, 'Movie')
+  #  print '+'
+  #end
+
+  #puts "Movie batch saved!"
+
+  #Series.limit(100).each do |series|
+  #  node = $neo.create_node(name: series.name, series_id: series.idseries)
+  #  $neo.add_label(node, 'Series')
+  #  print '+'
+  #end
+
+  #ActedIn.limit(100).each do |rel|
+
+  #end
+
+$neo.create_relationship_index('acted_ins')
+Actor.includes(:movies).find_each do |actor|
+    node = $neo.create_node(fname: actor.fname, lname: actor.fname, mname: actor.mname, actor_id: actor.id)
+    $neo.add_label(node, 'Actor')
+    $neo.add_node_to_index('actors', 'actor_id', actor.id, $neo.get_id(node), true)
+
+    movie_node = nil
+    actor.movies.each do |movie|
+      begin
+        movie_node = $neo.find_node_index('movies', 'movie_id', movie.idmovies)
+        raise StandardError if movie_node.nil?
+      rescue
+        movie_node = $neo.create_node(title: movie.title, movie_id: movie.idmovies)
+        $neo.add_label(movie_node, 'Movie')
+        $neo.add_node_to_index('movies', 'movie_id', movie.idmovies, $neo.get_id(movie_node), true)
+      ensure
+        $neo.create_unique_relationship('acted_ins', 'actor_id', movie.idmovies.to_s, 'ACTED_IN', node, movie_node)
+      end
+    end
+
+    print "+"
   end
 
-  puts "Actor batch saved!"
-  @movies = Hash.new
-  Movie.find_each do |movie|
-    @node = $neo.create_node(title: movie.title, id: movie.idmovies)
-    @movies[movie.idmovies] = @node
-    $neo.add_label(movie.id, 'Movie')
-  end
 
-  puts "Movie batch saved!"
-
-  @series = Hash.new
-  Series.find_each do |series|
-    @node = $neo.create_node(name: series.name, id: series.idseries)
-    @series[series.idseries] = @node
-    $neo.add_label(series.id, 'Series')
-  end
-
-
-  ActedIn.find_each do |rel|
-    @actorNode = actors[rel.idactors]
-
-  end
-
-  puts "ActedIn batch saved!"

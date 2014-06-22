@@ -17,7 +17,7 @@ class Movie < ActiveRecord::Base
   self.table_name = 'movies'
   self.inheritance_column = 'ruby_type'
 
-  has_many :actors, through: :acted_ins
+  has_many :actors, through: :acted_ins, foreign_key: :idmovies
 
   neoidable do |c|
     c.field :title
