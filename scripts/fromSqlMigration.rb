@@ -25,7 +25,7 @@
 
   ActedIn.find_each do |rel|
     @actorNode = actors[rel.idactors]
-    
+
   end
 
   puts "ActedIn batch saved!"
