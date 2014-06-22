@@ -19,6 +19,10 @@ class Movie < ActiveRecord::Base
 
   has_many :actors, through: :acted_ins
 
+  neoidable do |c|
+    c.field :title
+  end
+
   if ActiveRecord::VERSION::STRING < '4.0.0' || defined?(ProtectedAttributes)
     attr_accessible :idmovies, :title, :year, :number, :type, :location, :language
   end

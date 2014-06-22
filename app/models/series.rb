@@ -17,6 +17,10 @@ class Series < ActiveRecord::Base
 
   has_many :actors, through: :acted_ins
 
+  neoidable do |c|
+    c.field :name
+  end
+
   if ActiveRecord::VERSION::STRING < '4.0.0' || defined?(ProtectedAttributes)
     attr_accessible :idseries, :idmovies, :name, :season, :number
   end
