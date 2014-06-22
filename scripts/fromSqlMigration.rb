@@ -1,6 +1,19 @@
-Neoid.batch do
-  [ ActedIn.includes(:actor).includes(:movie), OtherRelationshipModel.includes(:from_model).includes(:to_model) ].each { |model| model.all.each(&:neo_save) }
-  [ ActedIn.includes(:actor).includes(:series), OtherRelationshipModel.includes(:from_model).includes(:to_model) ].each { |model| model.all.each(&:neo_save) }
+  Actor.find_each do |actor|
+    actor.neo_save
+    puts "Actor saved!"
+  end
 
-  NodeModel.all.each(&:neo_save)
-end
+  puts "Actor batch saved!"
+
+  Movie.find_each do |movie|
+    movie.neo_save
+  end
+
+  puts "Movie batch saved!"
+
+
+  ActedIn.find_each do |rel|
+    rel.neo_save
+  end
+
+  puts "ActedIn batch saved!"
