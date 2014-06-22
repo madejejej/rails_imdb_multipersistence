@@ -15,6 +15,17 @@ class ActedIn < ActiveRecord::Base
   self.inheritance_column = 'ruby_type'
   self.primary_key = 'idacted_in'
 
+  belongs_to :actor
+  belongs_to :movie
+  belongs_to :series
+
+  include Neoid::Relationship
+
+  neoidable do |c|
+    c.relationship start_node: :actor, end_node: :movie, type: :acted_in
+    c.relationship start_node: :actor, end_node: :series, type: :acted_in
+  end
+
   if ActiveRecord::VERSION::STRING < '4.0.0' || defined?(ProtectedAttributes)
     attr_accessible :idmovies, :idseries, :idactors, :character, :billing_position
   end

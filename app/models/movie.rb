@@ -12,8 +12,12 @@
 #
 
 class Movie < ActiveRecord::Base
+  include Neoid::Node
+
   self.table_name = 'movies'
   self.inheritance_column = 'ruby_type'
+
+  has_many :actors, through: :acted_ins
 
   if ActiveRecord::VERSION::STRING < '4.0.0' || defined?(ProtectedAttributes)
     attr_accessible :idmovies, :title, :year, :number, :type, :location, :language
