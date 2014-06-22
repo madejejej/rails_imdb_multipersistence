@@ -1,17 +1,22 @@
+
   Actor.find_each do |actor|
-    puts "Trying to save actor: "
-    p actor.inspect
-    $neo.create_node(fname: actor.fname, lname: actor.fname, mname: actor.mname, id: actor.id)
-    puts "Actor saved!"
+    $neo.create_node(fname: actor.fname, lname: actor.fname, mname: actor.mname, id: actor.idactors)
+    $neo.add_label(actor.id, 'Actor')
   end
 
   puts "Actor batch saved!"
 
   Movie.find_each do |movie|
-    movie.neo_save
+    $neo.create_node(title: movie.title, id: movie.idmovies)
+    $neo.add_label(movie.id, 'Movie')
   end
 
   puts "Movie batch saved!"
+
+  Series.find_each do |series|
+    $neo.create_node(name: series.name, id: series.idseries)
+    $neo.add_label(series.id, 'Series')
+  end
 
 
   ActedIn.find_each do |rel|
