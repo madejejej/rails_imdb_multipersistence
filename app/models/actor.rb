@@ -25,6 +25,10 @@ class Actor < ActiveRecord::Base
     c.field :lname
   end
 
+  def id
+    idactors
+  end
+
   if ActiveRecord::VERSION::STRING < '4.0.0' || defined?(ProtectedAttributes)
     attr_accessible :idactors, :lname, :fname, :mname, :gender, :number
   end

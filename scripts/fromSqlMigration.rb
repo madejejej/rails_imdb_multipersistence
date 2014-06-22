@@ -1,5 +1,7 @@
   Actor.find_each do |actor|
-    actor.neo_save
+    puts "Trying to save actor: "
+    p actor.inspect
+    $neo.create_node(fname: actor.fname, lname: actor.fname, mname: actor.mname, id: actor.id)
     puts "Actor saved!"
   end
 
